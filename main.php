@@ -202,6 +202,17 @@ switch ($choose) {
             ['.', '.', '.', 'X', '.', 'GY', '.', 'X', 'X', 'X', '.', 'X'],
             ['.', '.', '.', 'X', '.', 'GR', '.', '.', '.', '.', '.', 'X'],
             ['.', '.', '.', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            // ['.', '.', '.', '.', 'X', 'X', 'X', 'X', 'X', 'X', '.', '.'],
+            // ['.', '.', '.', '.', 'X', 'X', '.', 'R', '.', 'X', 'X', 'X'],
+            // ['X', 'X', 'X', 'X', 'X', '.', '.', '.', 'Y', '.', '.', 'X'],
+            // ['X', 'C', '.', '.', '.', '.', '.', '.', '.', 'X', '.', 'X'],
+            // ['X', '.', '.', '.', '.', '.', '.', '.', '.', 'X', '.', 'X'],
+            // ['X', 'B', 'GB', 'X', '.', 'W', 'X', 'X', 'X', 'X', '.', 'X'],
+            // ['X', 'X', 'X', 'X', '.', 'GY', '.', 'X', 'X', 'X', '.', 'X'],
+            // ['.', '.', '.', 'X', '.', 'GR', '.', 'X', 'X', 'X', '.', 'X'],
+            // ['.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.', 'X'],
+            // ['.', '.', '.', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+
         ];
         $game = new state(10, 12, $d);
         break;
@@ -212,16 +223,23 @@ switch ($choose) {
 $player = new GamePlayer($game);
 //$player->play();
 
-$start_time = microtime(true);
+$choosalgo = readline("Enter d or b To choose the Algorithm DFS of BFS:");
 
-//DFS:
-
-// $result = $player->dfs();
-
-//BFS:
-$result = $player->bfs();
-
-$end_time = microtime(true);
-
+switch ($choosalgo) {
+    case 'd':
+        //DFS:
+        $start_time = microtime(true);
+        $result = $player->dfs();
+        $end_time = microtime(true);
+        break;
+    case "b":
+        //BFS:
+        $start_time = microtime(true);
+        $result = $player->bfs();
+        $end_time = microtime(true);
+        break;
+    default:
+        echo "invalid Enter";
+}
 $execution_time = $end_time - $start_time;
 echo "Execution time: " . $execution_time . " seconds";
