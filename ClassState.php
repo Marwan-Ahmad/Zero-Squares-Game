@@ -113,6 +113,10 @@ class state
     }
 
 
+    public function getMoveCost()
+    {
+        return 1;
+    }
 
     public function isBoardInArray($boards, $newBoard)
     {

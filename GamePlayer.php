@@ -189,4 +189,79 @@ class GamePlayer
         echo "\n$visitnum\n";
         return null;
     }
+
+
+    /*
+i add some change one of the change 
+1- add usc in game player  
+2- add fun getcostmove in class state
+3- add anothe case to switch case to usc
+*/
+    public function ucs()
+    {
+        $deepcopy = new DeepCopy();
+        $parentmap = [];
+        $depth = 0;
+        $visitnum = 0;
+
+        $priorityQueue = new SplPriorityQueue();
+
+        $priorityQueue->insert($this->init, 0);
+        $costMap = [];
+        $costMap[$this->hashBoard($this->init->board)] = 0;
+
+        while (!$priorityQueue->isEmpty()) {
+            $this->current_state = $priorityQueue->extract();
+            $boardHash = $this->hashBoard($this->current_state->board);
+
+
+            if ($this->current_state->isWinningState()) {
+                $this->visited[$boardHash] = true;
+                $visitnum++;
+                $this->states[] = $this->current_state;
+
+                while (isset($parentmap[$boardHash])) {
+                    $depth++;
+                    $this->current_state = $parentmap[$boardHash];
+                    $this->states[] = $this->current_state;
+                    $boardHash = $this->hashBoard($this->current_state->board);
+                }
+
+                echo "Path to solution:\n";
+                foreach (array_reverse($this->states) as $index => $state) {
+                    echo "Board_Number : \n-" . $index . "-" . "\n";
+                    $state->printBoard();
+                    echo "\n";
+                }
+
+                echo "The depth of UCS: " . $depth . "\n";
+                break;
+            }
+
+            if (!isset($this->visited[$boardHash])) {
+                $this->visited[$boardHash] = true;
+                $visitnum++;
+
+
+                $children = $this->current_state->NextStep();
+                foreach ($children as $child) {
+                    $childHash = $this->hashBoard($child->board);
+                    $costToChild = $costMap[$boardHash] + $child->getMoveCost();
+
+
+                    if (!isset($costMap[$childHash]) || $costToChild < $costMap[$childHash]) {
+                        $priorityQueue->insert($child, -$costToChild);
+                        $costMap[$childHash] = $costToChild;
+                        $parentmap[$childHash] = $deepcopy->copy($this->current_state);
+                    }
+                }
+            }
+        }
+
+        echo "\nNumber of Visited :";
+        echo "\n$visitnum\n";
+        echo "\nThe Cost Of Goal :";
+        echo "\n$costToChild\n";
+        return null;
+    }
 }
