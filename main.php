@@ -222,12 +222,17 @@ switch ($choose) {
 $player = new GamePlayer($game);
 //$player->play();
 
-$choosalgo = readline("Enter D or B or C To choose the Algorithm DFS or BFS or UCS:");
+$choosalgo = readline("Enter d or b or c or dr To choose the Algorithm DFS or BFS or UCS or DFS_Recursive:");
 
 switch ($choosalgo) {
     case 'd':
         $start_time = microtime(true);
         $result = $player->dfs();
+        $end_time = microtime(true);
+        break;
+    case 'dr':
+        $start_time = microtime(true);
+        $player->dfsRecursive();
         $end_time = microtime(true);
         break;
     case "b":

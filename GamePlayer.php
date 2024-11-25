@@ -197,6 +197,8 @@ i add some change one of the change
 2- add fun getcostmove in class state
 3- add anothe case to switch case to usc
 */
+
+    //ucs algoo
     public function ucs()
     {
         $deepcopy = new DeepCopy();
@@ -263,5 +265,54 @@ i add some change one of the change
         echo "\nThe Cost Of Goal :";
         echo "\n$costToChild\n";
         return null;
+    }
+
+    // dfs recursive Algoo
+    public function dfsRecursive($currentState = null, &$visited = [], &$parentMap = [], $depth = 0)
+    {
+        if ($currentState === null) {
+            $currentState = $this->current_state;
+        }
+
+        $boardHash = $this->hashBoard($currentState->board);
+
+        if ($currentState->isWinningState()) {
+            $visited[$boardHash] = true;
+            echo "Path to solution:\n";
+            while (isset($parentMap[$boardHash])) {
+                $this->states[] = $currentState;
+                $currentState = $parentMap[$boardHash];
+                $boardHash = $this->hashBoard($currentState->board);
+            }
+            $this->states[] = $currentState;
+
+            foreach (array_reverse($this->states) as $index => $state) {
+                echo "Board_Number : \n-" . $index . "-" . "\n";
+                $state->printBoard();
+                echo "\n";
+            }
+
+            echo "The depth of DFS Recursive: " . $depth . "\n";
+            echo "Number of Visited States: " . count($visited) . "\n";
+            return true;
+        }
+
+        if (!isset($visited[$boardHash])) {
+            $visited[$boardHash] = true;
+
+            $children = $currentState->NextStep();
+            foreach ($children as $child) {
+                $childHash = $this->hashBoard($child->board);
+
+                if (!isset($visited[$childHash])) {
+                    $parentMap[$childHash] = $currentState;
+
+                    if ($this->dfsRecursive($child, $visited, $parentMap, $depth + 1)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
