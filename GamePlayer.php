@@ -12,6 +12,7 @@ class GamePlayer
 
     public $stack;
     public $queue;
+    public $priorityQueue;
     public $visited;
     public function __construct($init)
     {
@@ -23,6 +24,7 @@ class GamePlayer
         $this->stack[] = $this->init;
         $this->visited = [];
         $this->queue = new SplQueue();
+        $this->priorityQueue = new SplPriorityQueue();
     }
     private function giveHint()
     {
@@ -206,14 +208,14 @@ i add some change one of the change
         $depth = 0;
         $visitnum = 0;
 
-        $priorityQueue = new SplPriorityQueue();
 
-        $priorityQueue->insert($this->init, 0);
+
+        $this->priorityQueue->insert($this->init, 0);
         $costMap = [];
         $costMap[$this->hashBoard($this->init->board)] = 0;
 
-        while (!$priorityQueue->isEmpty()) {
-            $this->current_state = $priorityQueue->extract();
+        while (!$this->priorityQueue->isEmpty()) {
+            $this->current_state = $this->priorityQueue->extract();
             $boardHash = $this->hashBoard($this->current_state->board);
 
 
@@ -236,7 +238,7 @@ i add some change one of the change
                     echo "\n";
                 }
 
-                echo "The depth of UCS: " . $depth . "\n";
+                echo "The depth of UCS: " . ($depth + 1) . "\n";
                 break;
             }
 
@@ -252,7 +254,7 @@ i add some change one of the change
 
 
                     if (!isset($costMap[$childHash]) || $costToChild < $costMap[$childHash]) {
-                        $priorityQueue->insert($child, -$costToChild);
+                        $this->priorityQueue->insert($child, -$costToChild);
                         $costMap[$childHash] = $costToChild;
                         $parentmap[$childHash] = $deepcopy->copy($this->current_state);
                     }
@@ -268,7 +270,7 @@ i add some change one of the change
     }
 
     // dfs recursive Algoo
-    public function dfsRecursive($currentState = null, &$visited = [], &$parentMap = [], $depth = 0)
+    public function dfsRecursive($currentState = null, &$parentMap = [], $depth = 0)
     {
         if ($currentState === null) {
             $currentState = $this->current_state;
@@ -277,7 +279,7 @@ i add some change one of the change
         $boardHash = $this->hashBoard($currentState->board);
 
         if ($currentState->isWinningState()) {
-            $visited[$boardHash] = true;
+            $this->visited[$boardHash] = true;
             echo "Path to solution:\n";
             while (isset($parentMap[$boardHash])) {
                 $this->states[] = $currentState;
@@ -293,21 +295,21 @@ i add some change one of the change
             }
 
             echo "The depth of DFS Recursive: " . $depth . "\n";
-            echo "Number of Visited States: " . count($visited) . "\n";
+            echo "Number of Visited States: " . count($this->visited) . "\n";
             return true;
         }
 
         if (!isset($visited[$boardHash])) {
-            $visited[$boardHash] = true;
+            $this->visited[$boardHash] = true;
 
             $children = $currentState->NextStep();
             foreach ($children as $child) {
                 $childHash = $this->hashBoard($child->board);
 
-                if (!isset($visited[$childHash])) {
+                if (!isset($this->visited[$childHash])) {
                     $parentMap[$childHash] = $currentState;
 
-                    if ($this->dfsRecursive($child, $visited, $parentMap, $depth + 1)) {
+                    if ($this->dfsRecursive($child,  $parentMap, $depth + 1)) {
                         return true;
                     }
                 }
