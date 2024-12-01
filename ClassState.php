@@ -431,11 +431,45 @@ class state
                     || $cell === 'GC,C'
                     || $cell === 'GY,Y'
                     || $cell === 'GR,R'
+                    || $cell === 'W'
                 ) {
                     return false;
                 }
             }
         }
         return true;
+    }
+
+    //heuristic
+    public function getHeuristicValue()
+    {
+        $score = 0;
+
+
+        $targetSymbols = ['W', 'GY', 'GR', 'GB', 'GC'];
+
+        $targets = [];
+        for ($x = 0; $x < $this->n; $x++) {
+            for ($y = 0; $y < $this->col; $y++) {
+                if (in_array($this->board[$x][$y], $targetSymbols)) {
+                    $targets[] = [$x, $y];
+                }
+            }
+        }
+        for ($x = 0; $x < $this->n; $x++) {
+            for ($y = 0; $y < $this->col; $y++) {
+                $cell = $this->board[$x][$y];
+                if (!in_array($cell, $targetSymbols) && $cell !== '.') {
+                    foreach ($targets as $target) {
+                        $targetX = $target[0];
+                        $targetY = $target[1];
+                        $distance = abs($x - $targetX) + abs($y - $targetY);
+                        $score += $distance;
+                    }
+                }
+            }
+        }
+
+        return $score;
     }
 }
