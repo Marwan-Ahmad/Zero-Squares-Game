@@ -440,7 +440,7 @@ class state
         return true;
     }
 
-    //heuristic quiz
+    //heuristic
     public function getHeuristicValue()
     {
         $score = 0;
@@ -459,7 +459,7 @@ class state
         for ($x = 0; $x < $this->n; $x++) {
             for ($y = 0; $y < $this->col; $y++) {
                 $cell = $this->board[$x][$y];
-                if (!in_array($cell, $targetSymbols) && $cell !== '.') {
+                if (!in_array($cell, $targetSymbols) && $cell !== '.' && $cell !== "X") {
                     foreach ($targets as $target) {
                         $targetX = $target[0];
                         $targetY = $target[1];
