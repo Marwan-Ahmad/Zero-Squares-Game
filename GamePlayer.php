@@ -393,4 +393,76 @@ i add some change one of the change
         echo "\n" . ($costToChild) . "\n";
         return null;
     }
+
+    public function simpleHillClimbing()
+    {
+
+        $current_state = $this->init;
+        $visitnum = 0;
+
+        while (true) {
+
+            $children = $current_state->NextStep();
+
+
+            if (empty($children)) {
+                echo "No neighbors to evaluate, terminating.\n";
+                break;
+            }
+
+
+            $next_state = $children[0];
+            $next_value = $next_state->getHeuristicValue();
+
+
+            if ($next_value < $current_state->getHeuristicValue()) {
+                $current_state = $next_state;
+                $visitnum++;
+            } else {
+                echo "Stop.\n";
+                $current_state->printBoard();
+                break;
+            }
+        }
+
+        echo "\nNumber of Visited States: " . $visitnum . "\n";
+        return null;
+    }
+    public function steepestAscentHillClimbing()
+    {
+        $deepcopy = new DeepCopy();
+        $current_state = $this->init;
+        $visitnum = 0;
+
+
+        while (true) {
+            $children = $current_state->NextStep();
+
+            $best_child = null;
+            $best_value = PHP_INT_MAX;
+
+            foreach ($children as $child) {
+                $value = $child->getHeuristicValue();
+
+
+                if ($value < $best_value) {
+                    $best_value = $value;
+                    $best_child = $child;
+                }
+            }
+
+
+            if ($best_child === null || $best_value >= $current_state->getHeuristicValue()) {
+                echo "Stop.\n";
+                $current_state->printBoard();
+                break;
+            }
+
+            $current_state = $best_child;
+            $visitnum++;
+        }
+
+        echo "\nNumber of Visited States: " . $visitnum . "\n";
+        return null;
+    }
 }

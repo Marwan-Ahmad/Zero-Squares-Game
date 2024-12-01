@@ -222,7 +222,7 @@ switch ($choose) {
 $player = new GamePlayer($game);
 
 
-$choosalgo = readline("Enter p to play or Enter d or b or c or dr or a To choose the Algorithm DFS or BFS or UCS or DFS_Recursive or Astar:");
+$choosalgo = readline("Enter p to play or Enter d or b or c or dr or a or sh or sp To choose the Algorithm DFS or BFS or UCS or DFS_Recursive or Astar or simplehill or steepesthill:");
 
 switch ($choosalgo) {
     case 'p':
@@ -253,6 +253,17 @@ switch ($choosalgo) {
     case "a":
         $start_time = microtime(true);
         $result = $player->aStar();
+        $end_time = microtime(true);
+        break;
+
+    case "sh":
+        $start_time = microtime(true);
+        $result = $player->simpleHillClimbing();
+        $end_time = microtime(true);
+        break;
+    case "sp":
+        $start_time = microtime(true);
+        $result = $player->steepestAscentHillClimbing();
         $end_time = microtime(true);
         break;
     default:
