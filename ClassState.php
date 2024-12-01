@@ -440,7 +440,7 @@ class state
         return true;
     }
 
-    //heuristic
+    //heuristic quiz
     public function getHeuristicValue()
     {
         $score = 0;
