@@ -317,4 +317,80 @@ i add some change one of the change
         }
         return false;
     }
+
+    public function aStar()
+    {
+        $deepcopy = new DeepCopy();
+        $parentmap = [];
+        $depth = 0;
+        $visitnum = 0;
+
+
+        $this->priorityQueue->insert($this->init, 0);
+        $costMap = [];
+        $costMap[$this->hashBoard($this->init->board)] = 0;
+
+        while (!$this->priorityQueue->isEmpty()) {
+            $this->current_state = $this->priorityQueue->extract();
+            $boardHash = $this->hashBoard($this->current_state->board);
+
+            if ($this->current_state->isWinningState()) {
+                $this->visited[$boardHash] = true;
+                $visitnum++;
+                $this->states[] = $this->current_state;
+
+                while (isset($parentmap[$boardHash])) {
+                    $depth++;
+                    $this->current_state = $parentmap[$boardHash];
+                    $this->states[] = $this->current_state;
+                    $boardHash = $this->hashBoard($this->current_state->board);
+                }
+
+
+                echo "Path to solution:\n";
+                foreach (array_reverse($this->states) as $index => $state) {
+                    echo "Board_Number : \n-" . $index . "-" . "\n";
+                    $state->printBoard();
+                    echo "\n";
+                }
+
+                echo "The depth of A* search: " . ($depth + 1) . "\n";
+                break;
+            }
+
+            if (!isset($this->visited[$boardHash])) {
+                $this->visited[$boardHash] = true;
+                $visitnum++;
+
+
+                $children = $this->current_state->NextStep();
+                foreach ($children as $child) {
+                    $childHash = $this->hashBoard($child->board);
+
+
+                    $costToChild = $costMap[$boardHash] + $child->getMoveCost();
+
+
+                    $heuristicValue = $child->getHeuristicValue();
+
+
+                    $priority = $costToChild + $heuristicValue;
+
+
+                    if (!isset($costMap[$childHash]) || $costToChild < $costMap[$childHash]) {
+                        $this->priorityQueue->insert($child, -$priority);
+                        $costMap[$childHash] = $costToChild;
+                        $parentmap[$childHash] = $deepcopy->copy($this->current_state);
+                    }
+                }
+            }
+        }
+
+
+        echo "\nNumber of Visited :";
+        echo "\n$visitnum\n";
+        echo "\nThe Cost Of Goal :";
+        echo "\n" . ($costToChild) . "\n";
+        return null;
+    }
 }
