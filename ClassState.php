@@ -34,6 +34,7 @@ class state
             'R',
             'B',
             'C',
+            'O',
             'GR,Y',
             'GY,R',
             'GB,Y',
@@ -49,11 +50,83 @@ class state
             'GC,B',
             'GY,C',
             'GR,C',
-            'GB,C'
+            'GB,C',
+            'GC,O',
+            'GB,O',
+            'GY,O',
+            'GR,O',
+            'GO,O',
+            'GO,C',
+            'GO,B',
+            'GO,R',
+            'GO,Y',
         ];
         $newX = $x + $dx;
         $newY = $y + $dy;
         return isset($this->board[$newX][$newY]) && !in_array($this->board[$newX][$newY], $invalidCells);
+    }
+
+    public function getMoveCost()
+    {
+        $directions = [
+            [0, 1],   // Right
+            [0, -1],  // Left
+            [-1, 0],  // Up
+            [1, 0]    // Down
+        ];
+
+        $totalCost = 0;
+
+        for ($x = 0; $x < $this->n; $x++) {
+            for ($y = 0; $y < $this->col; $y++) {
+                if (
+                    $this->board[$x][$y] === 'Y'
+                    || $this->board[$x][$y] === 'R'
+                    || $this->board[$x][$y] === 'B'
+                    || $this->board[$x][$y] === 'C'
+                    || $this->board[$x][$y] === 'O'
+                    || $this->board[$x][$y] === 'GB,Y'
+                    || $this->board[$x][$y] === 'GB,R'
+                    || $this->board[$x][$y] === 'GB,C'
+                    || $this->board[$x][$y] === 'GB,B'
+                    || $this->board[$x][$y] === 'GB,O'
+                    || $this->board[$x][$y] === 'GY,R'
+                    || $this->board[$x][$y] === 'GY,B'
+                    || $this->board[$x][$y] === 'GY,C'
+                    || $this->board[$x][$y] === 'GY,Y'
+                    || $this->board[$x][$y] === 'GY,O'
+                    || $this->board[$x][$y] === 'GR,Y'
+                    || $this->board[$x][$y] === 'GR,B'
+                    || $this->board[$x][$y] === 'GR,R'
+                    || $this->board[$x][$y] === 'GR,C'
+                    || $this->board[$x][$y] === 'GR,O'
+                    || $this->board[$x][$y] === 'GC,Y'
+                    || $this->board[$x][$y] === 'GC,R'
+                    || $this->board[$x][$y] === 'GC,B'
+                    || $this->board[$x][$y] === 'GC,C'
+                    || $this->board[$x][$y] === 'GC,O'
+                    || $this->board[$x][$y] === 'GO,O'
+                    || $this->board[$x][$y] === 'GO,C'
+                    || $this->board[$x][$y] === 'GO,R'
+                    || $this->board[$x][$y] === 'GO,B'
+                    || $this->board[$x][$y] === 'GO,Y'
+                ) {
+                    foreach ($directions as $direction) {
+                        $dx = $direction[0];
+                        $dy = $direction[1];
+
+                        $newX = $x + $dx;
+                        $newY = $y + $dy;
+
+                        if (isset($this->board[$newX][$newY]) && $this->isValidMove($x, $y, $dx, $dy)) {
+                            $totalCost += 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $totalCost;
     }
 
 
@@ -77,22 +150,32 @@ class state
                     || $this->board[$x][$y] === 'R'
                     || $this->board[$x][$y] === 'B'
                     || $this->board[$x][$y] === 'C'
-                    || $this->board[$x][$y] === 'GY,R'
-                    || $this->board[$x][$y] === 'GR,Y'
+                    || $this->board[$x][$y] === 'O'
                     || $this->board[$x][$y] === 'GB,Y'
                     || $this->board[$x][$y] === 'GB,R'
+                    || $this->board[$x][$y] === 'GB,C'
+                    || $this->board[$x][$y] === 'GB,B'
+                    || $this->board[$x][$y] === 'GB,O'
+                    || $this->board[$x][$y] === 'GY,R'
                     || $this->board[$x][$y] === 'GY,B'
+                    || $this->board[$x][$y] === 'GY,C'
+                    || $this->board[$x][$y] === 'GY,Y'
+                    || $this->board[$x][$y] === 'GY,O'
+                    || $this->board[$x][$y] === 'GR,Y'
                     || $this->board[$x][$y] === 'GR,B'
                     || $this->board[$x][$y] === 'GR,R'
-                    || $this->board[$x][$y] === 'GB,B'
-                    || $this->board[$x][$y] === 'GY,Y'
+                    || $this->board[$x][$y] === 'GR,C'
+                    || $this->board[$x][$y] === 'GR,O'
                     || $this->board[$x][$y] === 'GC,Y'
                     || $this->board[$x][$y] === 'GC,R'
                     || $this->board[$x][$y] === 'GC,B'
-                    || $this->board[$x][$y] === 'GY,C'
-                    || $this->board[$x][$y] === 'GR,C'
-                    || $this->board[$x][$y] === 'GB,C'
                     || $this->board[$x][$y] === 'GC,C'
+                    || $this->board[$x][$y] === 'GC,O'
+                    || $this->board[$x][$y] === 'GO,O'
+                    || $this->board[$x][$y] === 'GO,C'
+                    || $this->board[$x][$y] === 'GO,R'
+                    || $this->board[$x][$y] === 'GO,B'
+                    || $this->board[$x][$y] === 'GO,Y'
                 ) {
                     foreach ($directions as $direction) {
                         $dx = $direction[0];
@@ -113,10 +196,6 @@ class state
     }
 
 
-    public function getMoveCost()
-    {
-        return 1;
-    }
 
     public function isBoardInArray($boards, $newBoard)
     {
@@ -150,22 +229,32 @@ class state
                         "R",
                         "B",
                         "C",
-                        "GY,R",
-                        "GR,Y",
+                        "O",
                         'GB,Y',
                         'GB,R',
+                        'GB,B',
+                        'GB,C',
+                        'GB,O',
+                        "GY,R",
+                        'GY,Y',
                         'GY,B',
+                        'GY,C',
+                        'GY,O',
+                        "GR,Y",
                         'GR,B',
                         'GR,R',
-                        'GB,B',
-                        'GY,Y',
+                        'GR,C',
+                        'GR,O',
                         'GC,Y',
                         'GC,R',
                         'GC,B',
-                        'GY,C',
-                        'GR,C',
-                        'GB,C',
-                        'GC,C'
+                        'GC,C',
+                        'GC,O',
+                        'GO,O',
+                        'GO,C',
+                        'GO,R',
+                        'GO,Y',
+                        'GO,B',
                     ]
                 )) {
                     $nx = $x;
@@ -207,6 +296,14 @@ class state
                                 continue 3;
                             }
                         }
+                        if ($newBoard[$x][$y] === "O") {
+                            if ($this->board[$nx][$ny] === 'GO') {
+
+                                $newBoard[$x][$y] = '.';
+                                $newBoard[$nx][$ny] = '.';
+                                continue 3;
+                            }
+                        }
 
                         if ($newBoard[$nx][$ny] === "W") {
                             if ($newBoard[$x][$y] === "R") {
@@ -215,6 +312,14 @@ class state
                                     $newBoard[$x][$y] = ".";
                                 } else {
                                     $newBoard[$nx][$ny] = "GR";
+                                }
+                            }
+                            if ($newBoard[$x][$y] === "O") {
+                                if ($newBoard[$nx + $dx][$ny + $dy] === "X") {
+                                    $newBoard[$nx][$ny] = "GO,O";
+                                    $newBoard[$x][$y] = ".";
+                                } else {
+                                    $newBoard[$nx][$ny] = "GO";
                                 }
                             }
                             if ($newBoard[$x][$y] === "B") {
@@ -249,7 +354,8 @@ class state
                             ($newBoard[$nx][$ny] === "GR" && $newBoard[$x][$y] === "R") ||
                             ($newBoard[$nx][$ny] === "GB" && $newBoard[$x][$y] === "B") ||
                             ($newBoard[$nx][$ny] === "GY" && $newBoard[$x][$y] === "Y") ||
-                            ($newBoard[$nx][$ny] === "GC" && $newBoard[$x][$y] === "C")
+                            ($newBoard[$nx][$ny] === "GC" && $newBoard[$x][$y] === "C") ||
+                            ($newBoard[$nx][$ny] === "GO" && $newBoard[$x][$y] === "O")
                         ) {
 
                             $newBoard[$nx][$ny] = ".";
@@ -260,6 +366,12 @@ class state
                         $ny += $dy;
                     }
 
+
+
+                    if ($newBoard[$nx][$ny] === "b") {
+                        $newBoard[$nx][$ny] = "b";
+                        $newBoard[$x][$y] = ".";
+                    }
 
 
                     if ($newBoard[$nx][$ny] === 'GY' && $newBoard[$x][$y] === "R") {
@@ -334,6 +446,54 @@ class state
                             $newBoard[$nx][$ny] = "GR,C";
                         }
                     }
+                    if ($newBoard[$nx][$ny] === 'GR' && $newBoard[$x][$y] === "O") {
+                        if ($newBoard[$nx + $dx][$ny + $dy] === 'X') {
+                            $newBoard[$x][$y] = ".";
+                            $newBoard[$nx][$ny] = "GR,O";
+                        }
+                    }
+                    if ($newBoard[$nx][$ny] === 'GC' && $newBoard[$x][$y] === "O") {
+                        if ($newBoard[$nx + $dx][$ny + $dy] === 'X') {
+                            $newBoard[$x][$y] = ".";
+                            $newBoard[$nx][$ny] = "GC,O";
+                        }
+                    }
+                    if ($newBoard[$nx][$ny] === 'GB' && $newBoard[$x][$y] === "O") {
+                        if ($newBoard[$nx + $dx][$ny + $dy] === 'X') {
+                            $newBoard[$x][$y] = ".";
+                            $newBoard[$nx][$ny] = "GB,O";
+                        }
+                    }
+                    if ($newBoard[$nx][$ny] === 'GY' && $newBoard[$x][$y] === "O") {
+                        if ($newBoard[$nx + $dx][$ny + $dy] === 'X') {
+                            $newBoard[$x][$y] = ".";
+                            $newBoard[$nx][$ny] = "GY,O";
+                        }
+                    }
+                    if ($newBoard[$nx][$ny] === 'GO' && $newBoard[$x][$y] === "C") {
+                        if ($newBoard[$nx + $dx][$ny + $dy] === 'X') {
+                            $newBoard[$x][$y] = ".";
+                            $newBoard[$nx][$ny] = "GO,C";
+                        }
+                    }
+                    if ($newBoard[$nx][$ny] === 'GO' && $newBoard[$x][$y] === "R") {
+                        if ($newBoard[$nx + $dx][$ny + $dy] === 'X') {
+                            $newBoard[$x][$y] = ".";
+                            $newBoard[$nx][$ny] = "GO,R";
+                        }
+                    }
+                    if ($newBoard[$nx][$ny] === 'GO' && $newBoard[$x][$y] === "B") {
+                        if ($newBoard[$nx + $dx][$ny + $dy] === 'X') {
+                            $newBoard[$x][$y] = ".";
+                            $newBoard[$nx][$ny] = "GO,B";
+                        }
+                    }
+                    if ($newBoard[$nx][$ny] === 'GO' && $newBoard[$x][$y] === "Y") {
+                        if ($newBoard[$nx + $dx][$ny + $dy] === 'X') {
+                            $newBoard[$x][$y] = ".";
+                            $newBoard[$nx][$ny] = "GO,Y";
+                        }
+                    }
 
 
                     if ($newBoard[$nx][$ny] === '.') {
@@ -349,6 +509,9 @@ class state
                         } else if ($newBoard[$x][$y] === "C") {
                             $newBoard[$x][$y] = '.';
                             $newBoard[$nx][$ny] = 'C';
+                        } else if ($newBoard[$x][$y] === "O") {
+                            $newBoard[$x][$y] = '.';
+                            $newBoard[$nx][$ny] = 'O';
                         } else if ($newBoard[$x][$y] === "GY,R") {
                             $newBoard[$x][$y] = 'GY';
                             $newBoard[$nx][$ny] = 'R';
@@ -397,6 +560,33 @@ class state
                         } elseif ($newBoard[$x][$y] === "GB,C") {
                             $newBoard[$x][$y] = 'GB';
                             $newBoard[$nx][$ny] = 'C';
+                        } elseif ($newBoard[$x][$y] === "GB,O") {
+                            $newBoard[$x][$y] = 'GB';
+                            $newBoard[$nx][$ny] = 'O';
+                        } elseif ($newBoard[$x][$y] === "GC,O") {
+                            $newBoard[$x][$y] = 'GC';
+                            $newBoard[$nx][$ny] = 'O';
+                        } elseif ($newBoard[$x][$y] === "GR,O") {
+                            $newBoard[$x][$y] = 'GR';
+                            $newBoard[$nx][$ny] = 'O';
+                        } elseif ($newBoard[$x][$y] === "GY,O") {
+                            $newBoard[$x][$y] = 'GY';
+                            $newBoard[$nx][$ny] = 'O';
+                        } elseif ($newBoard[$x][$y] === "GO,O") {
+                            $newBoard[$x][$y] = 'GO';
+                            $newBoard[$nx][$ny] = 'O';
+                        } elseif ($newBoard[$x][$y] === "GO,R") {
+                            $newBoard[$x][$y] = 'GO';
+                            $newBoard[$nx][$ny] = 'R';
+                        } elseif ($newBoard[$x][$y] === "GO,Y") {
+                            $newBoard[$x][$y] = 'GO';
+                            $newBoard[$nx][$ny] = 'Y';
+                        } elseif ($newBoard[$x][$y] === "GO,C") {
+                            $newBoard[$x][$y] = 'GO';
+                            $newBoard[$nx][$ny] = 'C';
+                        } elseif ($newBoard[$x][$y] === "GO,B") {
+                            $newBoard[$x][$y] = 'GO';
+                            $newBoard[$nx][$ny] = 'B';
                         }
                     }
                 }
@@ -415,22 +605,32 @@ class state
                     || $cell === 'GB'
                     || $cell === 'GY'
                     || $cell === 'GC'
+                    || $cell === 'GO'
                     || $cell === 'GR,Y'
+                    || $cell === 'GR,C'
+                    || $cell === 'GR,B'
+                    || $cell === 'GR,R'
+                    || $cell === 'GR,O'
                     || $cell === 'GY,R'
                     || $cell === 'GY,B'
-                    || $cell === 'GR,B'
+                    || $cell === 'GY,C'
+                    || $cell === 'GY,Y'
+                    || $cell === 'GY,O'
                     || $cell === 'GB,Y'
                     || $cell === 'GB,R'
+                    || $cell === 'GB,C'
+                    || $cell === 'GB,B'
+                    || $cell === 'GB,O'
                     || $cell === 'GC,Y'
                     || $cell === 'GC,R'
                     || $cell === 'GC,B'
-                    || $cell === 'GY,C'
-                    || $cell === 'GR,C'
-                    || $cell === 'GB,C'
-                    || $cell === 'GB,B'
                     || $cell === 'GC,C'
-                    || $cell === 'GY,Y'
-                    || $cell === 'GR,R'
+                    || $cell === 'GC,O'
+                    || $cell === 'GO,O'
+                    || $cell === 'GO,C'
+                    || $cell === 'GO,R'
+                    || $cell === 'GO,Y'
+                    || $cell === 'GO,B'
                     || $cell === 'W'
                 ) {
                     return false;
@@ -439,34 +639,266 @@ class state
         }
         return true;
     }
+    public function isGameOver()
+    {
+        $validTargets = ['GR', 'GB', 'GY', 'GC', 'GO'];
+        $coloredBlocks = ['Y', 'B', 'C', 'R', 'O'];
+        $allowedInteractions = [
+            'GR,Y',
+            'GR,C',
+            'GR,R',
+            'GR,B',
+            'GR,O',
+            'GC,Y',
+            'GC,C',
+            'GC,O',
+            'GC,R',
+            'GC,B',
+            'GB,Y',
+            'GB,C',
+            'GB,R',
+            'GB,B',
+            'GB,O',
+            'GY,Y',
+            'GY,C',
+            'GY,R',
+            'GY,B',
+            'GY,O',
+            'GO,Y',
+            'GO,C',
+            'GO,R',
+            'GO,B',
+            'GO,O',
+        ];
 
-    //heuristic
-    public function getHeuristicValue()
+        $targetCounts = [];
+        $hasW = false;
+        $coloredWithoutTarget = [];
+        $blocksOnB = [];
+
+        for ($x = 0; $x < $this->n; $x++) {
+            for ($y = 0; $y < $this->col; $y++) {
+                $cell = $this->board[$x][$y];
+
+                if ($cell === 'W') {
+                    $hasW = true;
+                }
+
+
+                if (in_array($cell, $validTargets)) {
+                    if (!isset($targetCounts[$cell])) {
+                        $targetCounts[$cell] = 0;
+                    }
+                    $targetCounts[$cell]++;
+                }
+
+
+                if (in_array($cell, $coloredBlocks)) {
+                    $correspondingTarget = 'G' . $cell;
+                    if (!$this->targetExists($correspondingTarget)) {
+                        $coloredWithoutTarget[] = $cell;
+                    }
+                }
+
+                if ($cell === 'b') {
+                    $blocksOnB[] = $cell;
+                }
+            }
+        }
+
+
+        foreach ($targetCounts as $count) {
+            if ($count > 1) {
+                return true;
+            }
+        }
+
+        if (!$hasW && !empty($coloredWithoutTarget)) {
+            return true;
+        }
+
+
+        if (!empty($blocksOnB)) {
+            foreach ($blocksOnB as $block) {
+                $correspondingTarget = 'G' . $block;
+                if ($this->targetExists($correspondingTarget)) {
+                    return true;
+                }
+            }
+        }
+
+
+        for ($x = 0; $x < $this->n; $x++) {
+            for ($y = 0; $y < $this->col; $y++) {
+                $cell = $this->board[$x][$y];
+                if (in_array($cell, $coloredBlocks)) {
+                    foreach ($validTargets as $target) {
+                        $interaction = $target . ',' . $cell;
+                        if (!in_array($interaction, $allowedInteractions)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($coloredBlocks as $block) {
+            $correspondingTarget = 'G' . $block;
+            if ($this->targetExists($correspondingTarget) && isset($targetCounts[$correspondingTarget]) && $targetCounts[$correspondingTarget] > 1) {
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+    private function targetExists($target)
+    {
+        for ($x = 0; $x < $this->n; $x++) {
+            for ($y = 0; $y < $this->col; $y++) {
+                if ($this->board[$x][$y] === $target) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
+
+
+    public function advHeuristicValue()
     {
         $score = 0;
 
 
-        $targetSymbols = ['W', 'GY', 'GR', 'GB', 'GC'];
-
-        $targets = [];
-        for ($x = 0; $x < $this->n; $x++) {
-            for ($y = 0; $y < $this->col; $y++) {
-                if (in_array($this->board[$x][$y], $targetSymbols)) {
-                    $targets[] = [$x, $y];
-                }
-            }
+        if ($this->isGameOver()) {
+            return PHP_INT_MAX;
         }
+        $targets = [
+            'B' => 'GB',
+            'R' => 'GR',
+            'Y' => 'GY',
+            'C' => 'GC',
+            'O' => 'GO',
+
+            'GR,Y' => 'GY',
+            'GC,Y' => 'GY',
+            'GB,Y' => 'GY',
+            'GO,Y' => 'GY',
+            'GY,Y' => 'GY',
+
+            'GB,C' => 'GC',
+            'GR,C' => 'GC',
+            'GY,C' => 'GC',
+            'GO,C' => 'GC',
+            'GC,C' => 'GC',
+
+            'GY,R' => 'GR',
+            'GC,R' => 'GR',
+            'GB,R' => 'GR',
+            'GO,R' => 'GR',
+            'GR,R' => 'GR',
+
+            'GC,B' => 'GB',
+            'GY,B' => 'GB',
+            'GR,B' => 'GB',
+            'GO,B' => 'GB',
+            'GB,B' => 'GB',
+
+            'GC,O' => 'GO',
+            'GY,O' => 'GO',
+            'GR,O' => 'GO',
+            'GO,O' => 'GO',
+            'GB,O' => 'GO',
+
+        ];
+
+
+        $locations = [];
         for ($x = 0; $x < $this->n; $x++) {
             for ($y = 0; $y < $this->col; $y++) {
                 $cell = $this->board[$x][$y];
-                if (!in_array($cell, $targetSymbols) && $cell !== '.' && $cell !== "X") {
-                    foreach ($targets as $target) {
-                        $targetX = $target[0];
-                        $targetY = $target[1];
-                        $distance = abs($x - $targetX) + abs($y - $targetY);
-                        $score += $distance;
-                    }
+                if (array_key_exists($cell, $targets) || in_array($cell, $targets)) {
+                    $locations[$cell] = [$x, $y];
                 }
+            }
+        }
+
+
+        foreach ($targets as $box => $goal) {
+            if (isset($locations[$box]) && isset($locations[$goal])) {
+                $boxLocation = $locations[$box];
+                $goalLocation = $locations[$goal];
+                $distance = abs($boxLocation[0] - $goalLocation[0]) + abs($boxLocation[1] - $goalLocation[1]);
+                $score += $distance;
+            }
+        }
+
+        return $score;
+    }
+    public function getHeuristicValue()
+    {
+        $score = 0;
+
+        $targets = [
+            'B' => 'GB',
+            'R' => 'GR',
+            'Y' => 'GY',
+            'C' => 'GC',
+            'O' => 'GO',
+
+            'GR,Y' => 'GY',
+            'GC,Y' => 'GY',
+            'GB,Y' => 'GY',
+            'GO,Y' => 'GY',
+            'GY,Y' => 'GY',
+
+            'GB,C' => 'GC',
+            'GR,C' => 'GC',
+            'GY,C' => 'GC',
+            'GO,C' => 'GC',
+            'GC,C' => 'GC',
+
+            'GY,R' => 'GR',
+            'GC,R' => 'GR',
+            'GB,R' => 'GR',
+            'GO,R' => 'GR',
+            'GR,R' => 'GR',
+
+            'GC,B' => 'GB',
+            'GY,B' => 'GB',
+            'GR,B' => 'GB',
+            'GO,B' => 'GB',
+            'GB,B' => 'GB',
+
+            'GC,O' => 'GO',
+            'GY,O' => 'GO',
+            'GR,O' => 'GO',
+            'GO,O' => 'GO',
+            'GB,O' => 'GO',
+
+        ];
+
+
+        $locations = [];
+        for ($x = 0; $x < $this->n; $x++) {
+            for ($y = 0; $y < $this->col; $y++) {
+                $cell = $this->board[$x][$y];
+                if (array_key_exists($cell, $targets) || in_array($cell, $targets)) {
+                    $locations[$cell] = [$x, $y];
+                }
+            }
+        }
+
+
+        foreach ($targets as $box => $goal) {
+            if (isset($locations[$box]) && isset($locations[$goal])) {
+                $boxLocation = $locations[$box];
+                $goalLocation = $locations[$goal];
+                $distance = abs($boxLocation[0] - $goalLocation[0]) + abs($boxLocation[1] - $goalLocation[1]);
+                $score += $distance;
             }
         }
 

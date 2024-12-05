@@ -47,25 +47,28 @@ class GamePlayer
             $move = readline("Enter move (w/a/s/d) -- Enter e to Exit: ");
             switch ($move) {
                 case 'w':
+
                     $this->current_state->move(-1, 0);
                     $this->current_state->printBoard();
                     $this->states[] = $deepcopy->copy($this->current_state);
-
                     break;
                 case 's':
+
                     $this->current_state->move(1, 0);
                     $this->current_state->printBoard();
                     $this->states[] = $deepcopy->copy($this->current_state);
-
                     break;
                 case 'a':
+
                     $this->current_state->move(0, -1);
                     $this->current_state->printBoard();
                     $this->states[] = $deepcopy->copy($this->current_state);
-
                     break;
                 case 'd':
+
+
                     $this->current_state->move(0, 1);
+
                     $this->current_state->printBoard();
                     $this->states[] = $deepcopy->copy($this->current_state);
                     break;
@@ -317,8 +320,7 @@ i add some change one of the change
         }
         return false;
     }
-
-    public function aStar()
+    public function aStarwithHeuristic()
     {
         $deepcopy = new DeepCopy();
         $parentmap = [];
@@ -361,22 +363,77 @@ i add some change one of the change
             if (!isset($this->visited[$boardHash])) {
                 $this->visited[$boardHash] = true;
                 $visitnum++;
-
-
                 $children = $this->current_state->NextStep();
                 foreach ($children as $child) {
                     $childHash = $this->hashBoard($child->board);
-
-
                     $costToChild = $costMap[$boardHash] + $child->getMoveCost();
-
-
                     $heuristicValue = $child->getHeuristicValue();
-
-
                     $priority = $costToChild + $heuristicValue;
+                    if (!isset($costMap[$childHash]) || $costToChild < $costMap[$childHash]) {
+                        $this->priorityQueue->insert($child, -$priority);
+                        $costMap[$childHash] = $costToChild;
+                        $parentmap[$childHash] = $deepcopy->copy($this->current_state);
+                    }
+                }
+            }
+        }
 
 
+        echo "\nNumber of Visited :";
+        echo "\n$visitnum\n";
+        echo "\nThe Cost Of Goal :";
+        echo "\n" . ($costToChild) . "\n";
+        return null;
+    }
+    public function aStarwithAdvHeuristic()
+    {
+        $deepcopy = new DeepCopy();
+        $parentmap = [];
+        $depth = 0;
+        $visitnum = 0;
+
+
+        $this->priorityQueue->insert($this->init, 0);
+        $costMap = [];
+        $costMap[$this->hashBoard($this->init->board)] = 0;
+
+        while (!$this->priorityQueue->isEmpty()) {
+            $this->current_state = $this->priorityQueue->extract();
+            $boardHash = $this->hashBoard($this->current_state->board);
+
+            if ($this->current_state->isWinningState()) {
+                $this->visited[$boardHash] = true;
+                $visitnum++;
+                $this->states[] = $this->current_state;
+
+                while (isset($parentmap[$boardHash])) {
+                    $depth++;
+                    $this->current_state = $parentmap[$boardHash];
+                    $this->states[] = $this->current_state;
+                    $boardHash = $this->hashBoard($this->current_state->board);
+                }
+
+
+                echo "Path to solution:\n";
+                foreach (array_reverse($this->states) as $index => $state) {
+                    echo "Board_Number : \n-" . $index . "-" . "\n";
+                    $state->printBoard();
+                    echo "\n";
+                }
+
+                echo "The depth of A* search: " . ($depth + 1) . "\n";
+                break;
+            }
+
+            if (!isset($this->visited[$boardHash])) {
+                $this->visited[$boardHash] = true;
+                $visitnum++;
+                $children = $this->current_state->NextStep();
+                foreach ($children as $child) {
+                    $childHash = $this->hashBoard($child->board);
+                    $costToChild = $costMap[$boardHash] + $child->getMoveCost();
+                    $heuristicValue = $child->advHeuristicValue();
+                    $priority = $costToChild + $heuristicValue;
                     if (!isset($costMap[$childHash]) || $costToChild < $costMap[$childHash]) {
                         $this->priorityQueue->insert($child, -$priority);
                         $costMap[$childHash] = $costToChild;
@@ -394,14 +451,14 @@ i add some change one of the change
         return null;
     }
 
+
+    // hill climbing for simple and steepest
     public function simpleHillClimbing()
     {
 
         $current_state = $this->init;
         $visitnum = 0;
-
         while (true) {
-
             $children = $current_state->NextStep();
 
 
@@ -464,5 +521,22 @@ i add some change one of the change
 
         echo "\nNumber of Visited States: " . $visitnum . "\n";
         return null;
+    }
+
+
+    public function logExecutionDetails($executionTime, $board, $algoo)
+    {
+
+        $memoryUsage = memory_get_usage();
+
+        $logMessage = "\nExecution Log: \n";
+        $logMessage .= "Number of level:" . $board . "\n";
+        $logMessage .= "algorithem:" . $algoo . "\n";
+        $logMessage .= "Visited Nodes Number: " . count($this->visited) . "\n";
+        $logMessage .= "Solution Path Number: " . count($this->states) . "\n";
+        $logMessage .= "Execution Time: " . $executionTime . " seconds\n";
+        $logMessage .= "Memory Usage: " . $memoryUsage . " bytes\n";
+
+        file_put_contents('log.txt', $logMessage, FILE_APPEND);
     }
 }

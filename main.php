@@ -108,23 +108,32 @@ foreach ($f as $rowf) {
 }
 echo PHP_EOL;
 
-$choose = readline("Choose The Board You prefer To Play (1/2/3/4/5/6): ");
+$choose = readline("Choose The Board You prefer To Play (10/20/30/1/3/5/6): ");
 
 switch ($choose) {
     case '1':
 
         $a = [
-            ['.', 'X', 'X', 'X', 'X', '.', '.', '.'],
-            ['X', 'X', 'Y', '.', 'X', 'X', 'X', '.'],
-            ['X', '.', '.', '.', 'X', 'GY', 'X', '.'],
-            ['X', '.', '.', '.', '.', '.', 'X', 'X'],
-            ['X', '.', '.', '.', '.', '.', 'GR', 'X'],
-            ['X', '.', '.', 'X', '.', '.', 'X', 'X'],
-            ['X', 'R', '.', 'X', 'X', 'X', 'X', '.'],
-            ['X', 'X', 'X', 'X', '.', '.', '.', '.']
+            // ['.', 'X', 'X', 'X', 'X', '.', '.', '.'],
+            // ['X', 'X', 'Y', '.', 'X', 'X', 'X', '.'],
+            // ['X', '.', '.', '.', 'X', 'GY', 'X', '.'],
+            // ['X', '.', '.', '.', '.', '.', 'X', 'X'],
+            // ['X', '.', '.', '.', '.', '.', 'GR', 'X'],
+            // ['X', '.', '.', 'X', '.', '.', 'X', 'X'],
+            // ['X', 'R', '.', 'X', 'X', 'X', 'X', '.'],
+            // ['X', 'X', 'X', 'X', '.', '.', '.', '.']
+
+            [".", "X", "X", "X", "X", "X", ".", ".", ".", ".", "."],
+            ["X", "X", "R", ".", ".", "X", "X", "X", "X", "X", "."],
+            ["X", ".", ".", ".", ".", "X", "X", "GB", ".", "X", "."],
+            ["X", ".", ".", ".", ".", ".", ".", ".", ".", "X", "X"],
+            ["X", ".", ".", ".", "X", "X", "X", ".", ".", "GR", "X"],
+            ["X", ".", ".", ".", ".", ".", ".", ".", ".", "X", "X"],
+            ["X", "X", "B", ".", "X", "X", "X", "X", "X", "X", "."],
+            [".", "X", "X", "X", "X", ".", ".", ".", ".", ".", "."]
         ];
 
-        $game = new state(8, 8, $a);
+        $game = new state(8, 11, $a);
         break;
     case '3':
 
@@ -145,34 +154,41 @@ switch ($choose) {
 
         $game = new state(12, 12, $b);
         break;
-    case '2':
+    case '10':
         $c = [
             ['.', '.', 'X', 'X', 'X', 'X', 'X', 'X', 'X', '.', '.', '.'],
-            ['.', 'X', 'X', '.', '.', '.', '.', '.', 'X', 'X', 'X', '.'],
-            ['X', 'X', '.', '.', 'X', '.', 'GB', '.', '.', '.', 'X', 'X'],
-            ['X', '.', '.', 'X', '.', '.', '.', 'X', '.', '.', '.', 'X'],
-            ['X', '.', '.', '.', '.', '.', '.', 'X', 'X', '.', '.', 'X'],
-            ['X', '.', '.', '.', '.', 'GR', '.', '.', 'X', '.', '.', 'X'],
+            ['.', 'X', 'X', '.', '.', '.', '.', '.', '.', 'X', 'X', '.'],
+            ['X', 'X', '.', '.', 'X', '.', 'GB', 'X', '.', '.', 'X', 'X'],
+            ['X', '.', '.', 'X', '.', 'GR', '.', '.', 'X', '.', '.', 'X'],
             ['X', '.', '.', '.', '.', 'X', '.', '.', 'X', 'X', '.', 'X'],
             ['X', 'R', 'X', '.', 'X', 'X', '.', '.', '.', 'X', 'B', 'X'],
             ['X', '.', '.', '.', 'X', '.', '.', '.', '.', '.', '.', 'X'],
             ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
 
+
         ];
-        $game = new state(10, 12, $c);
+        $game = new state(8, 12, $c);
         break;
-    case '4':
+    case '20':
         $d = [
-            ['.', '.', 'X', 'X', 'X', 'X', 'X', '.', '.', '.', '.', '.'],
-            ['X', 'X', 'X', 'B', 'R', 'Y', 'X', '.', '.', '.', '.', '.'],
-            ['X', '.', 'X', '.', '.', 'GB', 'X', 'X', 'X', 'X', 'X', '.'],
-            ['X', '.', 'X', '.', '.', '.', '.', 'X', 'GR', '.', 'X', '.'],
-            ['X', '.', 'X', 'X', '.', 'X', 'X', 'X', '.', '.', 'X', '.'],
-            ['X', '.', '.', '.', '.', '.', '.', '.', '.', 'X', 'X', '.'],
-            ['X', '.', '.', 'X', 'GY', '.', '.', '.', 'X', 'X', '.', '.'],
-            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', '.', '.', '.'],
+            ['.', '.', 'X', 'X', 'X', 'X', 'X', '.', '.',],
+            ['X', 'X', 'X', 'X', 'R', 'GY', 'X', 'X', 'X',],
+            ['X', 'GB', 'O', 'B', '.', '.', '.', '.', 'X',],
+            ['X', '.', 'GO,C', 'X', 'GR', '.', 'X', 'GC,Y', 'X',],
+            ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X',],
         ];
-        $game = new state(8, 12, $d);
+        $game = new state(5, 9, $d);
+        break;
+    case '30':
+        $d = [
+            ['.', '.', '.', 'X', 'X', 'X', 'X', 'X', 'X', '.', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['X', 'X', 'X', 'X', 'X', '.', '.', 'GR', 'X', 'X', 'X', 'GY', 'X', 'X', 'GO', 'X'],
+            ['X', 'R', 'B', 'O', '.', '.', 'X', '.', '.', '.', '.', '.', '.', '.', '.', 'X'],
+            ['X', 'Y', 'C', '.', '.', '.', '.', '.', '.', '.', '.', '.', 'X', '.', '.', 'X'],
+            ['X', 'X', 'X', 'X', 'X', 'W', 'X', 'X', 'GB', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
+            ['.', '.', '.', '.', 'X', 'X', 'X', 'X', 'b', 'X', '.', '.', '.', '.', '.', '.'],
+        ];
+        $game = new state(6, 16, $d);
         break;
     case '5':
         $d = [
@@ -194,12 +210,12 @@ switch ($choose) {
             ['.', '.', '.', '.', 'X', 'X', 'X', 'X', 'X', 'X', '.', '.'],
             ['.', '.', '.', '.', 'X', 'X', '.', 'R', '.', 'X', 'X', 'X'],
             ['X', 'X', 'X', 'X', 'X', '.', '.', '.', 'Y', '.', '.', 'X'],
-            ['X', 'C', '.', '.', '.', '.', '.', '.', '.', 'X', '.', 'X'],
+            ['X', 'O', '.', '.', '.', '.', '.', '.', '.', 'X', '.', 'X'],
             ['X', '.', '.', '.', '.', '.', '.', '.', '.', 'X', '.', 'X'],
             ['X', 'B', 'GB', 'X', '.', '.', 'X', 'X', 'X', 'X', '.', 'X'],
             ['X', 'X', 'X', 'X', '.', 'W', '.', 'X', 'X', 'X', '.', 'X'],
-            ['.', '.', '.', 'X', '.', 'GY', '.', 'X', 'X', 'X', '.', 'X'],
-            ['.', '.', '.', 'X', '.', 'GR', '.', '.', '.', '.', '.', 'X'],
+            ['.', '.', '.', 'X', '.', '.', '.', 'X', 'X', 'X', '.', 'X'],
+            ['.', '.', '.', 'X', '.', '.', 'GR', 'GY', '.', '.', '.', 'X'],
             ['.', '.', '.', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'],
             // ['.', '.', '.', '.', 'X', 'X', 'X', 'X', 'X', 'X', '.', '.'],
             // ['.', '.', '.', '.', 'X', 'X', '.', 'R', '.', 'X', 'X', 'X'],
@@ -222,46 +238,50 @@ switch ($choose) {
 $player = new GamePlayer($game);
 
 
-$choosalgo = readline("Enter p to play or Enter d or b or c or dr or a or sh or sp To choose the Algorithm DFS or BFS or UCS or DFS_Recursive or Astar or simplehill or steepesthill:");
+$choosalgo = readline("Enter player to play or Enter dfs or bfs or ucs or dfsrec or a* or advanA* or simplehill or steepesthill To choose the Algorithm DFS or BFS or UCS or DFS_Recursive  or ASTAR or advanceA* or Simplehill or Steepesthill:");
 
 switch ($choosalgo) {
-    case 'p':
+    case 'player':
         $start_time = microtime(true);
         $player->play();
         $end_time = microtime(true);
         break;
-    case 'd':
+    case 'dfs':
         $start_time = microtime(true);
         $result = $player->dfs();
         $end_time = microtime(true);
         break;
-    case 'dr':
+    case 'dfsrec':
         $start_time = microtime(true);
         $player->dfsRecursive();
         $end_time = microtime(true);
         break;
-    case "b":
+    case "bfs":
         $start_time = microtime(true);
         $result = $player->bfs();
         $end_time = microtime(true);
         break;
-    case "c":
+    case "ucs":
         $start_time = microtime(true);
         $result = $player->ucs();
         $end_time = microtime(true);
         break;
-    case "a":
+    case "a*":
         $start_time = microtime(true);
-        $result = $player->aStar();
+        $result = $player->aStarwithHeuristic();
         $end_time = microtime(true);
         break;
-
-    case "sh":
+    case "advanA*":
+        $start_time = microtime(true);
+        $result = $player->aStarwithAdvHeuristic();
+        $end_time = microtime(true);
+        break;
+    case "simplehill":
         $start_time = microtime(true);
         $result = $player->simpleHillClimbing();
         $end_time = microtime(true);
         break;
-    case "sp":
+    case "steepesthill":
         $start_time = microtime(true);
         $result = $player->steepestAscentHillClimbing();
         $end_time = microtime(true);
@@ -271,3 +291,4 @@ switch ($choosalgo) {
 }
 $execution_time = $end_time - $start_time;
 echo "Execution time: " . $execution_time . " seconds";
+$player->logExecutionDetails($execution_time, $choose, $choosalgo);

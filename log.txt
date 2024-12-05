@@ -1,0 +1,186 @@
+
+Execution Log: 
+Number of level:10
+algorithem:dfs
+Visited Nodes Number: 261
+Solution Path Number: 95
+Execution Time: 0.52556490898132 seconds
+Memory Usage: 3011720 bytes
+
+Execution Log: 
+Number of level:10
+algorithem:dfsrec
+Visited Nodes Number: 231
+Solution Path Number: 112
+Execution Time: 0.34777307510376 seconds
+Memory Usage: 2590328 bytes
+
+Execution Log: 
+Number of level:10
+algorithem:bfs
+Visited Nodes Number: 295
+Solution Path Number: 51
+Execution Time: 0.42708110809326 seconds
+Memory Usage: 2783096 bytes
+
+Execution Log: 
+Number of level:10
+algorithem:ucs
+Visited Nodes Number: 293
+Solution Path Number: 45
+Execution Time: 0.46944785118103 seconds
+Memory Usage: 2741448 bytes
+
+Execution Log: 
+Number of level:10
+algorithem:a*
+Visited Nodes Number: 292
+Solution Path Number: 45
+Execution Time: 0.48486590385437 seconds
+Memory Usage: 2735456 bytes
+
+Execution Log: 
+Number of level:10
+algorithem:advanA*
+Visited Nodes Number: 292
+Solution Path Number: 45
+Execution Time: 0.51912212371826 seconds
+Memory Usage: 2735456 bytes
+
+Execution Log: 
+Number of level:10
+algorithem:simplehill
+Visited Nodes Number: 2
+Solution Path Number: 0
+Execution Time: 0.0060279369354248 seconds
+Memory Usage: 790816 bytes
+
+Execution Log: 
+Number of level:10
+algorithem:steepesthill
+Visited Nodes Number: 2
+Solution Path Number: 0
+Execution Time: 0.0062999725341797 seconds
+Memory Usage: 792608 bytes
+
+Execution Log: 
+Number of level:20
+algorithem:dfs
+Visited Nodes Number: 25
+Solution Path Number: 22
+Execution Time: 0.042794942855835 seconds
+Memory Usage: 1027008 bytes
+
+Execution Log: 
+Number of level:20
+algorithem:dfsrec
+Visited Nodes Number: 323
+Solution Path Number: 60
+Execution Time: 0.33113098144531 seconds
+Memory Usage: 2533936 bytes
+
+Execution Log: 
+Number of level:20
+algorithem:bfs
+Visited Nodes Number: 2158
+Solution Path Number: 15
+Execution Time: 2.702189207077 seconds
+Memory Usage: 4704064 bytes
+
+Execution Log: 
+Number of level:20
+algorithem:ucs
+Visited Nodes Number: 416
+Solution Path Number: 13
+Execution Time: 0.52934408187866 seconds
+Memory Usage: 1820240 bytes
+
+Execution Log: 
+Number of level:20
+algorithem:a*
+Visited Nodes Number: 388
+Solution Path Number: 13
+Execution Time: 0.50186204910278 seconds
+Memory Usage: 1657360 bytes
+
+Execution Log: 
+Number of level:20
+algorithem:advanA*
+Visited Nodes Number: 371
+Solution Path Number: 21
+Execution Time: 0.47918891906738 seconds
+Memory Usage: 1763224 bytes
+
+Execution Log: 
+Number of level:20
+algorithem:simplehill
+Visited Nodes Number: 0
+Solution Path Number: 0
+Execution Time: 0.002910852432251 seconds
+Memory Usage: 776704 bytes
+
+Execution Log: 
+Number of level:20
+algorithem:steepesthill
+Visited Nodes Number: 1
+Solution Path Number: 0
+Execution Time: 0.0045537948608398 seconds
+Memory Usage: 783296 bytes
+
+Execution Log: 
+Number of level:30
+algorithem:dfs
+Memory Usage:Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes)
+
+Execution Log: 
+Number of level:30
+algorithem:dfs
+Memory Usage:Allowed memory size of 536870912 bytes exhausted (tried to allocate 20480 bytes)
+
+Execution Log: 
+Number of level:30
+algorithem:bfs
+Visited Nodes Number: 8969
+Solution Path Number: 12
+Execution Time: 22.178339004517 seconds
+Memory Usage: 28421784 bytes
+
+Execution Log: 
+Number of level:30
+algorithem:ucs
+Visited Nodes Number: 2502
+Solution Path Number: 12
+Execution Time: 6.8213589191437 seconds
+Memory Usage: 8245984 bytes
+
+Execution Log: 
+Number of level:30
+algorithem:a*
+Visited Nodes Number: 899
+Solution Path Number: 12
+Execution Time: 2.4201819896698 seconds
+Memory Usage: 4040424 bytes
+
+Execution Log: 
+Number of level:30
+algorithem:advanA*
+Visited Nodes Number: 98
+Solution Path Number: 12
+Execution Time: 0.31452083587646 seconds
+Memory Usage: 1602000 bytes
+
+Execution Log: 
+Number of level:30
+algorithem:simplehill
+Visited Nodes Number: 3
+Solution Path Number: 0
+Execution Time: 0.014394998550415 seconds
+Memory Usage: 792984 bytes
+
+Execution Log: 
+Number of level:30
+algorithem:steepesthill
+Visited Nodes Number: 3
+Solution Path Number: 0
+Execution Time: 0.011533975601196 seconds
+Memory Usage: 794776 bytes
